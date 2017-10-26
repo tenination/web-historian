@@ -48,20 +48,34 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.writeFile(exports.paths.list, url, function(err) {
-    if (err) { throw err;}
-  });
-  callback();
+  console.log('RUNNING ADD URL TO LIST ######################################################', url);
+  
+  callback(
+    fs.writeFile(exports.paths.list, url, function(err) {
+      console.log(url, 'Url in writeFile-----------------------------');
+      if (err) { throw err;}
+    })
+  );
+  
+  
+  
+  
+  
+  
 };
 
 exports.isUrlArchived = function(url, callback) {
   fs.readdir(exports.paths.archivedSites, (err, files) => {
-    
-    return callback(files.includes(url));   
+    if (url[0] === '/'){
+      url = url.slice(1);
+    }
+  console.log('URL AND FILES, respectively', url, files);
+    return callback(!!files.includes(url));  
   });
 };
 
 exports.downloadUrls = function(urls) {
+//console.log('**********************************URLS ARE', urls);
   urls.forEach(function (url) {request('http://' + url, function(error, response, body) {
   fs.writeFile(exports.paths.archivedSites + '/' + url, body, function(err) {
     if (err) throw err;
