@@ -48,14 +48,15 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.writeFile(exports.paths.list, url, function(err){
-    if (err) throw err;
+  fs.writeFile(exports.paths.list, url, function(err) {
+    if (err) { throw err;}
   });
   callback();
 };
 
 exports.isUrlArchived = function(url, callback) {
   fs.readdir(exports.paths.archivedSites, (err, files) => {
+    
     return callback(files.includes(url));   
   });
 };

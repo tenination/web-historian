@@ -1,5 +1,6 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
+var _ = require('underscore')
 // require more modules/folders here!
 var helpers = require('./http-helpers.js');
 var fs = require('fs');
@@ -15,7 +16,8 @@ exports.handleRequest = function (req, res) {
     res.write(data);
     res.end();
     });
-  } else if (req.method === 'GET' && archive.isUrlArchived(req.url, () => {})){
+  } else if (req.method === 'GET' ){
+    console.log('URLACHIEVED IS EQUAL TO........................................', archive.isUrlArchived(req.url, (bool) => {console.log(bool)}));
     fs.readFile('' + archive.paths.archivedSites + '/' + req.url, (err, data) => {
       if (err) { 
         throw err};
@@ -24,6 +26,7 @@ exports.handleRequest = function (req, res) {
     });
     
   } else {
+  console.log('---------------------------------------------------------------THE ERROR IS 201', archive.isUrlArchived(req.url, (boolean) => {boolean}));
   res.writeHead(201, helpers.headers);
   res.end(archive.paths.list);
 }
@@ -35,4 +38,4 @@ exports.handleRequest = function (req, res) {
 };
 
 
-
+//&& archive.isUrlArchived(req.url)
